@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Painel - Em Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 p-4 md:p-10">
+
+    <!-- CABEÇALHO -->
+    <header class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <div class="text-center md:text-left">
+            <h1 class="text-3xl font-extrabold text-slate-900">Painel de Gestão</h1>
+            <p class="text-slate-500 font-medium mt-1">Bem-vindo(a), {{ usuario.nome }}!</p>
+        </div>
+        <a href="/" class="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded font-bold shadow-sm transition">← Voltar ao Calendário</a>
+    </header>
+
+    <!-- GRID DE 3 COLUNAS -->
+    <main class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+        
+        <!-- COLUNA 1 (ESQUERDA): Eventos que Participo -->
+        <section class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
+            <h2 class="text-xl font-bold text-green-600 border-b-2 border-green-200 pb-2 mb-4">Vou Participar</h2>
+            <div class="flex flex-col gap-4">
+                {% for evento in participo %}
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                        <strong class="text-lg text-green-900">{{ evento.titulo }}</strong>
+                        <p class="text-sm text-green-700 mt-1">📅 {{ evento.data }}</p>
+                        <p class="text-sm text-green-700">📍 {{ evento.cidade }} | 📏 {{ evento.distancia }}</p>
+                    </div>
+                {% else %}
+                    <p class="text-slate-500 font-medium">Você não está inscrito em nenhum evento.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- COLUNA 2 (CENTRO): Eventos que Organizo -->
+        <section class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
+            <h2 class="text-xl font-bold text-blue-600 border-b-2 border-blue-200 pb-2 mb-4">Eventos que Organizo</h2>
+            <div class="flex flex-col gap-4">
+                {% for evento in organizados %}
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <strong class="text-lg text-slate-800">{{ evento.titulo }}</strong>
+                        <p class="text-sm text-slate-500 mb-3">📅 {{ evento.data }} | 📍 {{ evento.cidade }}</p>
+                        
+                        <h4 class="text-sm font-bold text-blue-600 mb-2">Lista de Inscritos:</h4>
+                        <ul class="text-sm space-y-1">
+                            {% for inscrito in evento.inscritos %}
+                                <li class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                    <span class="font-medium">{{ inscrito.nome }}</span> 
+                                    <span class="text-slate-400 text-xs">({{ inscrito.email }})</span>
+                                </li>
+                            {% else %}
+                                <li class="text-slate-400 italic">Nenhum ciclista inscrito ainda.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% else %}
+                    <p class="text-slate-500 font-medium">Você ainda não organizou nenhum evento.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- COLUNA 3 (DIREITA): Criar Evento -->
+        <section class="bg-white p-6 rounded-xl shadow-md border border-slate-100">
+            <h2 class="text-xl font-bold text-orange-500 border-b-2 border-orange-200 pb-2 mb-4">Organizar Novo Evento</h2>
+            <form method="POST" action="/" class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Título:</label>
+                    <input type="text" name="titulo" required class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Data (AAAA-MM-DD):</label>
+                    <input type="date" name="data" required class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Cidade:</label>
+                    <input type="text" name="cidade" required class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Distância (km):</label>
+                    <input type="text" name="distancia" placeholder="Ex: 50km" required class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                </div>
+                <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded mt-2 shadow-sm transition">
+                    Criar Evento
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+</body>
+</html>

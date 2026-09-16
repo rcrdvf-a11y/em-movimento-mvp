@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso - Em Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 p-4 flex flex-col items-center justify-center min-h-screen">
+    
+    <!-- Cabeçalho de Login -->
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-extrabold text-slate-900">🚴 Em Movimento</h1>
+        <p class="text-slate-500 font-medium mt-2">Junte-se à comunidade ciclística da sua região!</p>
+    </div>
+    
+    <!-- Grid que divide a tela -->
+    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- LADO 1 (ESQUERDA): LOGIN -->
+        <div class="bg-white p-8 rounded-xl shadow-md border border-slate-100">
+            <h2 class="text-2xl font-bold text-blue-600 border-b-2 border-blue-200 pb-2 mb-6">Já tenho conta</h2>
+            
+            <form method="POST" action="/login" class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">E-mail:</label>
+                    <input type="email" name="email_login" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Senha:</label>
+                    <input type="password" name="senha_login" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg mt-2 shadow-sm transition">
+                    Entrar
+                </button>
+            </form>
+        </div>
+
+        <!-- LADO 2 (DIREITA): CRIAR CONTA -->
+        <div class="bg-white p-8 rounded-xl shadow-md border border-slate-100">
+            <h2 class="text-2xl font-bold text-green-600 border-b-2 border-green-200 pb-2 mb-6">Criar Conta</h2>
+            
+            <form method="POST" action="/cadastrar" class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Nome Completo:</label>
+                    <input type="text" name="nome" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">E-mail:</label>
+                    <input type="email" name="email" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Senha:</label>
+                    <input type="password" name="senha" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
+                </div>
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg mt-2 shadow-sm transition">
+                    Cadastrar
+                </button>
+            </form>
+        </div>
+
+    </div>
+    
+    <div class="mt-8">
+        <a href="/" class="text-slate-500 hover:text-slate-700 font-bold transition">← Voltar para o calendário de eventos</a>
+    </div>
+
+</body>
+</html>

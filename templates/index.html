@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Em Movimento</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendario-eventos');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          locale: 'pt-br',
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek'
+          },
+          events: [
+            {% for evento in eventos %}
+            {
+              title: '{{ evento.titulo }}',
+              start: '{{ evento.data }}'
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+          ]
+        });
+        calendar.render();
+      });
+    </script>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 p-4 md:p-10">
+    
+    <!-- CABEÇALHO -->
+    <header class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <div class="text-center md:text-left">
+            <h1 class="text-3xl font-extrabold text-slate-900 flex items-center justify-center md:justify-start gap-2">
+                🚴 Em Movimento
+            </h1>
+            <p class="text-slate-500 font-medium mt-1">Centralizando a divulgação de eventos ciclísticos.</p>
+        </div>
+        
+        <!-- Lógica do Topo -->
+        {% if usuario %}
+            <div class="flex items-center gap-3 bg-white p-2 md:p-3 rounded-lg shadow-sm">
+                <span class="text-green-600 font-bold px-2">Olá, {{ usuario.nome }}!</span>
+                <a href="/painel" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded font-bold transition">Meu Painel</a>
+                <a href="/sair" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded font-bold transition">Sair</a>
+            </div>
+        {% else %}
+            <a href="/login" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold shadow-md transition">
+                Entrar / Cadastrar
+            </a>
+        {% endif %}
+    </header>
+
+    <!-- CAIXA PRINCIPAL (Agora centralizada e focada apenas no conteúdo) -->
+    <main class="max-w-5xl mx-auto flex flex-col gap-8 items-center">
+        
+        <section class="w-full bg-white p-6 md:p-10 rounded-xl shadow-md border border-slate-100">
+            
+            <!-- O Calendário -->
+            <div id="calendario-eventos" class="mb-8 relative z-0"></div>
+
+            <hr class="border-slate-200 mb-6">
+
+            <!-- A Lista de Pedais -->
+            <h2 class="text-2xl font-bold text-blue-600 mb-4">Lista de Pedais Detalhada</h2>
+            <ul class="flex flex-col gap-4">
+                {% for evento in eventos %}
+                    <li class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex flex-col md:flex-row justify-between md:items-center gap-4 hover:shadow-md transition">
+                        <div>
+                            <strong class="text-lg text-slate-800">{{ evento.titulo }}</strong>
+                            <div class="text-sm text-slate-500 mt-1 font-medium">
+                                <span class="bg-white px-2 py-1 rounded shadow-sm inline-block mb-1 md:mb-0 mr-1">📅 {{ evento.data }}</span> 
+                                <span class="bg-white px-2 py-1 rounded shadow-sm inline-block mb-1 md:mb-0 mr-1">📍 {{ evento.cidade }}</span> 
+                                <span class="bg-white px-2 py-1 rounded shadow-sm inline-block">📏 {{ evento.distancia }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2">
+                            {% if usuario %}
+                                {% if usuario.id == evento.criador_id %}
+                                    <a href="/editar/{{ evento.id }}" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded text-sm font-bold shadow-sm transition">Editar</a>
+                                    <a href="/deletar/{{ evento.id }}" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-sm font-bold shadow-sm transition">Apagar</a>
+                                {% else %}
+                                    <a href="/participar/{{ evento.id }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-bold shadow-sm transition">Quero Participar!</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </li>
+                {% else %}
+                    <p class="text-slate-500 font-medium bg-slate-50 p-4 rounded text-center border border-slate-200">Nenhum evento cadastrado ainda.</p>
+                {% endfor %}
+            </ul>
+        </section>
+
+    </main>
+
+</body>
+</html>
