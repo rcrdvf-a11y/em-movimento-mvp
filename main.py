@@ -39,6 +39,7 @@ def criar_tabelas():
             data TEXT,
             cidade TEXT,
             distancia TEXT,
+            link_mapa TEXT,
             status TEXT DEFAULT 'pendente',
             criador_id INTEGER,
             FOREIGN KEY(criador_id) REFERENCES usuarios(id)
