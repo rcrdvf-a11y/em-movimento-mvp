@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração - Em Movimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen flex flex-col relative overflow-x-hidden z-0">
+
+    <!-- IMAGEM DE FUNDO FIXA -->
+    <img src="/static/img/bg-onda2.png" alt="Ondas" class="fixed bottom-0 left-0 w-full h-auto object-cover -z-10 opacity-70">
+
+    <!-- CABEÇALHO -->
+    <header class="w-full flex justify-between items-center p-6 md:px-10 bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200 z-10 mb-8">
+        <div>
+            <img src="/static/img/bg-logo.png" alt="Logo Em Movimento" class="h-10 md:h-12 drop-shadow-sm">
+        </div>
+        <div class="flex gap-3">
+            <a href="/" class="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-full font-bold shadow transition text-sm">
+                Voltar ao Site
+            </a>
+            <a href="/sair" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full font-bold shadow transition text-sm">
+                Sair
+            </a>
+        </div>
+    </header>
+
+    <main class="w-full max-w-5xl mx-auto flex flex-col gap-6 px-4 relative z-10 mb-20">
+        
+        <!-- TÍTULO DA PÁGINA -->
+        <div class="mb-2 bg-white/60 backdrop-blur-sm p-8 rounded-[2rem] border border-slate-100 shadow-sm text-center">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">
+                Painel do <span class="text-purple-600">Administrador</span>
+            </h1>
+            <p class="text-lg text-slate-600 mt-2 font-medium">Gestão de Eventos Pendentes</p>
+        </div>
+
+        <!-- LISTA DE APROVAÇÃO -->
+        <section class="bg-white/95 backdrop-blur-sm p-6 md:p-10 rounded-[2rem] shadow-xl border-t-4 border-t-purple-500 border-x border-b border-slate-200">
+            <ul class="flex flex-col gap-4">
+                {% for evento in eventos_pendentes %}
+                    <li class="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col md:flex-row justify-between md:items-center gap-4 hover:shadow-md transition">
+                        <div>
+                            <strong class="text-xl text-slate-800">{{ evento.titulo }}</strong>
+                            <div class="text-sm text-slate-600 mt-2 font-medium flex flex-wrap gap-2">
+                                <span class="bg-white px-3 py-1 rounded-full shadow-sm border border-slate-100">📅 {{ evento.data }}</span> 
+                                <span class="bg-white px-3 py-1 rounded-full shadow-sm border border-slate-100">📍 {{ evento.cidade }}</span> 
+                                <span class="bg-white px-3 py-1 rounded-full shadow-sm border border-slate-100">📏 {{ evento.distancia }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2">
+                            <!-- BOTÕES DE AÇÃO -->
+                            <a href="/aprovar/{{ evento.id }}" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-sm transition flex items-center gap-1">
+                                Aprovar ✓
+                            </a>
+                            <a href="/recusar/{{ evento.id }}" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-sm transition flex items-center gap-1">
+                                Recusar ✗
+                            </a>
+                        </div>
+                    </li>
+                {% else %}
+                    <!-- MENSAGEM SE A FILA ESTIVER VAZIA -->
+                    <div class="text-center p-10">
+                        <p class="text-xl text-slate-500 font-medium mb-2">Tudo limpo por aqui!</p>
+                        <p class="text-sm text-slate-400">Não há nenhum evento aguardando aprovação no momento.</p>
+                    </div>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+
+</body>
+</html>
