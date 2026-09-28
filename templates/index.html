@@ -26,6 +26,13 @@
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendario-eventos');
         var calendar = new FullCalendar.Calendar(calendarEl, {
+        buttonText: {
+            today: 'Hoje',
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia',
+            list: 'Lista'
+    },
           initialView: 'dayGridMonth',
           locale: 'pt-br',
           headerToolbar: {
